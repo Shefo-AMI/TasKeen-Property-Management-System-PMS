@@ -1,0 +1,20 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "usernamehw.errorlens",
+    "eamodio.gitlens",
+    "formulahendry.auto-rename-tag",
+    "christian-kohler.path-intellisense",
+    "bradlc.vscode-tailwindcss",
+    "heybourn.headwind",
+    "humao.rest-client",
+    "rangav.vscode-thunder-client",
+    "mikestead.dotenv",
+    "vercel.vercel",
+    "aaron-bond.better-comments",
+    "Gruntfuggly.todo-tree",
+    "adpyke.codesnap",
+    "shd101wyy.markdown-preview-enhanced"
+  ]
+}
