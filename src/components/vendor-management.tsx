@@ -35,7 +35,7 @@ import {
   Users,
   Wrench
 } from 'lucide-react'
-import { toast } from 'sonner@2.0.3'
+import { toast } from 'sonner'
 import { demoVendors, Vendor } from '../utils/demo-data'
 
 interface User {

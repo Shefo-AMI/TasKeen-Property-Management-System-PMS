@@ -21,7 +21,7 @@ export const supabase = (() => {
         },
         global: {
           headers: {
-            'X-Client-Info': 'propertyflow-web@1.0.0'
+            'X-Client-Info': 'propertyflow-web'
           }
         }
       }

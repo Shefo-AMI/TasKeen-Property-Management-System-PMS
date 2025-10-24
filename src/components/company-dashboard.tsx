@@ -31,7 +31,7 @@ import {
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
 import { Textarea } from './ui/textarea'
-import { toast } from 'sonner@2.0.3'
+import { toast } from 'sonner'
 import { projectId } from '../utils/supabase/info'
 import { AccountingSystem } from './accounting-system'
 import { EnhancedMaintenanceSystem } from './enhanced-maintenance-system'

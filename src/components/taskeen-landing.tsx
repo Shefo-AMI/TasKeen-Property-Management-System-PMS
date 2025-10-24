@@ -7,7 +7,7 @@ import { Label } from './ui/label';
 import { Textarea } from './ui/textarea';
 import { Badge } from './ui/badge';
 import { Check, Zap, Users, BarChart3, Clock, FileText, ArrowRight, Menu, X, Sun, Moon } from 'lucide-react';
-import { toast } from 'sonner@2.0.3';
+import { toast } from 'sonner';
 import { contactService } from '../utils/taskeen-services';
 import { FREE_PLAN, PRO_PLAN } from '../utils/taskeen-types';
 

@@ -7,7 +7,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '.
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from './ui/alert-dialog'
 import { Users, Building2, UserCheck, UserX, Settings, LogOut, Activity, Calendar, TrendingUp, Shield, HeartPulse, Rocket } from 'lucide-react'
 import { projectId } from '../utils/supabase/info'
-import { toast } from 'sonner@2.0.3'
+import { toast } from 'sonner'
 import { SystemHealthDashboard } from './system-health-dashboard'
 import { DeploymentReadinessReport } from './deployment-readiness-report'
 

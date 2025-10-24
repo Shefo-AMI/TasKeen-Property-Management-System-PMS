@@ -82,7 +82,7 @@ import { DocumentsSystem } from './documents-system'
 import { BuilderEditorManager } from './builder-io-editor'
 import { CRUDManagementPage } from './crud-management-page'
 import { CRUDManagementPageSupabase } from './crud-management-page-supabase'
-import { toast } from 'sonner@2.0.3'
+import { toast } from 'sonner'
 import { projectId } from '../utils/supabase/info'
 import { 
   demoProperties, 

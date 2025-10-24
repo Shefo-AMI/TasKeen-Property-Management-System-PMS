@@ -13,125 +13,43 @@ interface AuthFormProps {
   onShowAdminSetup?: () => void
 }
 
+// Define Role type for type-safe Select
+type UserRole = 'company_admin' | 'employee' | 'manager'
+
 // Cyber-Luxe Neon Styles
 const cyberStyles = `
-  @keyframes neon-pulse {
-    0%, 100% {
-      text-shadow: 
-        0 0 10px #00ffff,
-        0 0 20px #00ffff,
-        0 0 30px #00ffff,
-        0 0 40px #00ffff;
-    }
-    50% {
-      text-shadow:
-        0 0 20px #00ffff,
-        0 0 30px #00ffff,
-        0 0 40px #00ffff,
-        0 0 50px #00ffff,
-        0 0 60px #00ffff;
-    }
-  }
+  @keyframes neon-pulse { 0%, 100% { text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff, 0 0 40px #00ffff; } 50% { text-shadow: 0 0 20px #00ffff, 0 0 30px #00ffff, 0 0 40px #00ffff, 0 0 50px #00ffff, 0 0 60px #00ffff; } }
+  @keyframes glow-border { 0%, 100% { box-shadow: 0 0 20px rgba(0, 255, 255, 0.5), inset 0 0 20px rgba(0, 255, 255, 0.1); } 50% { box-shadow: 0 0 40px rgba(0, 255, 255, 0.8), inset 0 0 30px rgba(0, 255, 255, 0.2); } }
+  @keyframes border-flow { 0%, 100% { border-color: rgba(0, 255, 255, 0.4); } 50% { border-color: rgba(0, 255, 255, 1); } }
 
-  @keyframes glow-border {
-    0%, 100% {
-      box-shadow: 0 0 20px rgba(0, 255, 255, 0.5), inset 0 0 20px rgba(0, 255, 255, 0.1);
-    }
-    50% {
-      box-shadow: 0 0 40px rgba(0, 255, 255, 0.8), inset 0 0 30px rgba(0, 255, 255, 0.2);
-    }
-  }
-
-  @keyframes border-flow {
-    0%, 100% { border-color: rgba(0, 255, 255, 0.4); }
-    50% { border-color: rgba(0, 255, 255, 1); }
-  }
-
-  .neon-text {
-    animation: neon-pulse 2s ease-in-out infinite;
-    color: #00ffff;
-    font-weight: 900;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-  }
-
-  .cyber-card {
-    background: linear-gradient(135deg, rgba(15, 23, 42, 0.98) 0%, rgba(30, 41, 59, 0.98) 100%);
-    border: 2px solid rgba(0, 255, 255, 0.3);
-    box-shadow: 0 8px 32px rgba(0, 255, 255, 0.15);
-    animation: border-flow 3s ease-in-out infinite;
-    backdrop-filter: blur(20px);
-  }
-
-  .cyber-input {
-    background: rgba(15, 23, 42, 0.9);
-    border: 1px solid rgba(0, 255, 255, 0.3);
-    color: #e2e8f0;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .cyber-input:focus {
-    border-color: #00ffff;
-    box-shadow: 0 0 20px rgba(0, 255, 255, 0.4), inset 0 0 10px rgba(0, 255, 255, 0.1);
-    background: rgba(15, 23, 42, 0.95);
-  }
-
-  .cyber-input::placeholder {
-    color: rgba(148, 163, 184, 0.5);
-  }
-
-  .cyber-button {
-    background: linear-gradient(135deg, #0ea5e9 0%, #00ffff 100%);
-    border: 1px solid #00ffff;
-    box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .cyber-button:hover {
-    box-shadow: 0 0 30px rgba(0, 255, 255, 0.8), 0 0 60px rgba(0, 255, 255, 0.4);
-    transform: translateY(-2px);
-  }
-
-  .cyber-button::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-    transition: left 0.5s;
-  }
-
-  .cyber-button:hover::before {
-    left: 100%;
-  }
-
-  .cyber-logo {
-    animation: glow-border 2s ease-in-out infinite;
-  }
-
-  .cyber-tab-active {
-    background: linear-gradient(135deg, #0ea5e9 0%, #00ffff 100%);
-    box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
-  }
-
-  .subtitle-glow {
-    color: #22d3ee;
-    text-shadow: 0 0 10px rgba(6, 182, 212, 0.8);
-    letter-spacing: 0.2em;
-  }
+  .neon-text { animation: neon-pulse 2s ease-in-out infinite; color: #00ffff; font-weight: 900; letter-spacing: 0.15em; text-transform: uppercase; }
+  .cyber-card { background: linear-gradient(135deg, rgba(15, 23, 42, 0.98) 0%, rgba(30, 41, 59, 0.98) 100%); border: 2px solid rgba(0, 255, 255, 0.3); box-shadow: 0 8px 32px rgba(0, 255, 255, 0.15); animation: border-flow 3s ease-in-out infinite; backdrop-filter: blur(20px); }
+  .cyber-input { background: rgba(15, 23, 42, 0.9); border: 1px solid rgba(0, 255, 255, 0.3); color: #e2e8f0; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+  .cyber-input:focus { border-color: #00ffff; box-shadow: 0 0 20px rgba(0, 255, 255, 0.4), inset 0 0 10px rgba(0, 255, 255, 0.1); background: rgba(15, 23, 42, 0.95); }
+  .cyber-input::placeholder { color: rgba(148, 163, 184, 0.5); }
+  .cyber-button { background: linear-gradient(135deg, #0ea5e9 0%, #00ffff 100%); border: 1px solid #00ffff; box-shadow: 0 0 20px rgba(0, 255, 255, 0.5); transition: all 0.3s ease; position: relative; overflow: hidden; }
+  .cyber-button:hover { box-shadow: 0 0 30px rgba(0, 255, 255, 0.8), 0 0 60px rgba(0, 255, 255, 0.4); transform: translateY(-2px); }
+  .cyber-button::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent); transition: left 0.5s; }
+  .cyber-button:hover::before { left: 100%; }
+  .cyber-logo { animation: glow-border 2s ease-in-out infinite; }
+  .cyber-tab-active { background: linear-gradient(135deg, #0ea5e9 0%, #00ffff 100%); box-shadow: 0 0 20px rgba(0, 255, 255, 0.5); }
+  .subtitle-glow { color: #22d3ee; text-shadow: 0 0 10px rgba(6, 182, 212, 0.8); letter-spacing: 0.2em; }
 `
-
 export function AuthForm({ onLogin, onRegister, onShowAdminSetup }: AuthFormProps) {
   const [isLoading, setIsLoading] = useState(false)
   const [loginForm, setLoginForm] = useState({
     email: '',
     password: ''
   })
-  const [registerForm, setRegisterForm] = useState({
+  const [registerForm, setRegisterForm] = useState<{
+    email: string
+    password: string
+    confirmPassword: string
+    fullName: string
+    companyName: string
+    employeeCount: string
+    role: UserRole
+  }>({
     email: '',
     password: '',
     confirmPassword: '',
@@ -141,28 +59,20 @@ export function AuthForm({ onLogin, onRegister, onShowAdminSetup }: AuthFormProp
     role: 'company_admin'
   })
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (!loginForm.email || !loginForm.password) return
-
     setIsLoading(true)
-    try {
-      await onLogin(loginForm.email, loginForm.password)
-    } catch (error) {
-      // Error handling is done in parent component
-    } finally {
-      setIsLoading(false)
-    }
+    try { await onLogin(loginForm.email, loginForm.password) }
+    finally { setIsLoading(false) }
   }
 
-  const handleRegister = async (e: React.FormEvent) => {
+  const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    
     if (registerForm.password !== registerForm.confirmPassword) {
       alert('Passwords do not match')
       return
     }
-
     if (!registerForm.email || !registerForm.password || !registerForm.fullName || !registerForm.companyName) {
       alert('Please fill in all required fields')
       return
@@ -178,8 +88,6 @@ export function AuthForm({ onLogin, onRegister, onShowAdminSetup }: AuthFormProp
         employeeCount: parseInt(registerForm.employeeCount) || 1,
         role: registerForm.role
       })
-      
-      // Reset form on success
       setRegisterForm({
         email: '',
         password: '',
@@ -189,11 +97,7 @@ export function AuthForm({ onLogin, onRegister, onShowAdminSetup }: AuthFormProp
         employeeCount: '',
         role: 'company_admin'
       })
-    } catch (error) {
-      // Error handling is done in parent component
-    } finally {
-      setIsLoading(false)
-    }
+    } finally { setIsLoading(false) }
   }
 
   return (
@@ -300,6 +204,7 @@ export function AuthForm({ onLogin, onRegister, onShowAdminSetup }: AuthFormProp
                 </CardContent>
               </TabsContent>
 
+
               {/* Register Tab */}
               <TabsContent value="register">
                 <CardHeader className="pb-4">
@@ -403,6 +308,24 @@ export function AuthForm({ onLogin, onRegister, onShowAdminSetup }: AuthFormProp
                       </div>
                     </div>
 
+                    {/* Typed Role Select */}
+                    <div className="space-y-2">
+                      <Label htmlFor="register-role" className="text-cyan-300 font-semibold">Role</Label>
+                      <Select
+                        value={registerForm.role}
+                        onValueChange={(value: UserRole) => setRegisterForm(prev => ({ ...prev, role: value }))}
+                      >
+                        <SelectTrigger className="cyber-input h-11">
+                          <SelectValue placeholder="Select role" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="company_admin">Company Admin</SelectItem>
+                          <SelectItem value="employee">Employee</SelectItem>
+                          <SelectItem value="manager">Manager</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+
                     <Button 
                       type="submit" 
                       className="w-full cyber-button text-white font-bold text-base h-12 mt-6" 
@@ -427,3 +350,4 @@ export function AuthForm({ onLogin, onRegister, onShowAdminSetup }: AuthFormProp
     </>
   )
 }
+

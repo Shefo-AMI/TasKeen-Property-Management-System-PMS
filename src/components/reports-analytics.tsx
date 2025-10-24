@@ -36,7 +36,7 @@ import {
   Eye
 } from 'lucide-react'
 import { LineChart as RechartsLineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart as RechartsBarChart, Bar, PieChart as RechartsPieChart, Cell, Pie, AreaChart, Area } from 'recharts'
-import { toast } from 'sonner@2.0.3'
+import { toast } from 'sonner'
 
 interface User {
   id: string

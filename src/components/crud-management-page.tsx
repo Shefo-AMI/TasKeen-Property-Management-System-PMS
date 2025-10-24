@@ -6,7 +6,7 @@ import { Badge } from './ui/badge'
 import { Building2, Users, FileText, Wrench, FolderOpen, Plus, Eye, Pencil, Trash2 } from 'lucide-react'
 import { PropertyCRUD, TenantCRUD, LeaseCRUD, MaintenanceCRUD, DocumentManager } from './crud'
 import type { Property, Tenant, Lease, Maintenance, Document } from './crud'
-import { toast } from 'sonner@2.0.3'
+import { toast } from 'sonner'
 
 // Mock data for demonstration
 const mockProperties: Property[] = [

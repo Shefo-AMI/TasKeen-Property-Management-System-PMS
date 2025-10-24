@@ -3,7 +3,7 @@
  * Company Setup and Initial Data
  */
 
-import companyLogo from 'figma:asset/af2600a9f374c13b4cde70b7f5737a1703c9a037.png';
+import companyLogo from '../assets/af2600a9f374c13b4cde70b7f5737a1703c9a037.png';
 
 export const ALZAHI_COMPANY = {
   id: 'alzahi-property-management',

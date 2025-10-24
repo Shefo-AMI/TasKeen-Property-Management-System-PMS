@@ -20,7 +20,7 @@ import {
   Moon,
   Zap,
 } from 'lucide-react';
-import { toast } from 'sonner@2.0.3';
+import { toast } from 'sonner';
 import { profileService, projectService } from '../utils/taskeen-services';
 import type { CustomerProfile, Project } from '../utils/taskeen-types';
 import { FREE_PLAN, PRO_PLAN, hasFeatureAccess } from '../utils/taskeen-types';

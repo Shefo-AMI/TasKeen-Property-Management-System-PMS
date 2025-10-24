@@ -5,7 +5,7 @@ import { Button } from './ui/button'
 import { Badge } from './ui/badge'
 import { Separator } from './ui/separator'
 import { Progress } from './ui/progress'
-import { toast } from 'sonner@2.0.3'
+import { toast } from 'sonner'
 import { projectId, publicAnonKey } from '../utils/supabase/info'
 
 interface DeploymentCheckItem {

@@ -6,7 +6,7 @@ import { Label } from './ui/label'
 import { Badge } from './ui/badge'
 import { supabase } from '../utils/supabase'
 import { Shield, CheckCircle, AlertCircle, ArrowLeft } from 'lucide-react'
-import { toast } from 'sonner@2.0.3'
+import { toast } from 'sonner'
 
 interface SimpleAdminSetupProps {
   onComplete?: () => void

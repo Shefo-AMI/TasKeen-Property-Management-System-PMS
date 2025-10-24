@@ -10,7 +10,7 @@ import {
   Home, Wrench, DollarSign, MessageSquare, Lightbulb,
   Clock, CheckCircle, AlertCircle
 } from 'lucide-react'
-import { toast } from 'sonner@2.0.3'
+import { toast } from 'sonner'
 
 interface User {
   id: string

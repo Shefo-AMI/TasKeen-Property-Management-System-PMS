@@ -15,7 +15,7 @@ import { SimpleAdminSetup } from "./components/simple-admin-setup";
 import { AlzahiSetupWizard } from "./components/alzahi-setup-wizard";
 import { supabase } from "./utils/supabase";
 import { Toaster } from "./components/ui/sonner";
-import { toast } from "sonner@2.0.3";
+import { toast } from "sonner";
 import { startRulesEngine } from "./utils/rules-engine";
 import { deploymentTestSuite } from "./utils/deployment-test-suite";
 import { displaySystemStatus } from "./utils/system-status-report";

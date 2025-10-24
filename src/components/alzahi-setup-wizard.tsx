@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/
 import { Progress } from './ui/progress';
 import { Badge } from './ui/badge';
 import { Building2, Users, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
-import { toast } from 'sonner@2.0.3';
+import { toast } from 'sonner';
 import { registerAllAlzahiUsers } from '../utils/register-alzahi-users';
 import { ALZAHI_COMPANY, ALZAHI_USERS, ALZAHI_PROPERTIES } from '../utils/alzahi-company-setup';
 
