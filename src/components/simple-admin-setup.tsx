@@ -35,13 +35,15 @@ export function SimpleAdminSetup({ onComplete, onBack }: SimpleAdminSetupProps) 
     setStatus('idle')
     
     try {
+      const normalizedEmail = email.trim().toLowerCase()
+      
       // First try to sign in to see if account already exists
       const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
-        email,
+        email: normalizedEmail,
         password
       })
 
-      if (signInData.user && !signInError) {
+      if (signInData?.user && !signInError) {
         setStatus('success')
         toast.success('Platform admin account already exists and is working!')
         if (onComplete) {
@@ -51,48 +53,58 @@ export function SimpleAdminSetup({ onComplete, onBack }: SimpleAdminSetupProps) 
       }
 
       // If sign in failed, try to create the account
+      console.log('📝 Creating new admin account...', { email: normalizedEmail })
       const { data, error } = await supabase.auth.signUp({
-        email,
+        email: normalizedEmail,
         password,
         options: {
           data: {
             full_name: 'Platform Administrator',
             role: 'platform_admin',
-            company_name: 'PropertyFlow Platform',
-            company_id: 'platform',
-            employee_count: 1
-          }
+            company_name: 'TasKeen P.M.S Platform',
+            company_id: 'platform-admin',
+            employee_count: 1,
+            status: 'active'
+          },
+          emailRedirectTo: window.location.origin
         }
       })
 
       if (error) {
-        console.error('Signup error:', error)
+        console.error('❌ Admin setup error:', error)
+        setStatus('error')
         
-        if (error.message.includes('already registered')) {
-          // Account exists but password is wrong
-          toast.error('Account exists but password is incorrect. Please check your credentials.')
-          setStatus('error')
+        if (error.message.includes('already registered') || error.message.includes('already exists')) {
+          toast.error('This email is already registered. Please try logging in instead.')
         } else {
-          toast.error(error.message || 'Failed to create admin account')
-          setStatus('error')
+          toast.error(error.message || 'Failed to create admin account. Please try again.')
         }
         return
       }
 
-      if (data.user) {
+      if (data?.user) {
         setStatus('success')
+        console.log('✅ Admin account created:', data.user.id)
         
-        if (data.user.email_confirmed_at) {
+        if (data.session) {
+          // User is automatically logged in (email confirmation disabled)
+          toast.success('Platform admin account created and logged in successfully!')
+        } else if (data.user.email_confirmed_at) {
           // Account is ready to use
           toast.success('Platform admin account created and confirmed!')
         } else {
           // Email confirmation required
-          toast.success('Platform admin account created! Please check your email to confirm your account.')
+          toast.success('Platform admin account created! Please check your email to confirm your account.', {
+            duration: 7000,
+          })
         }
         
         if (onComplete) {
           setTimeout(onComplete, 2000)
         }
+      } else {
+        setStatus('error')
+        toast.error('Account creation failed. Please check your email and try again.')
       }
 
     } catch (error: any) {

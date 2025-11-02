@@ -32,7 +32,8 @@ interface Message {
 interface AIAssistantProps {
   user: User
   onClose: () => void
-  onScheduleTask: (task: string) => void
+  onScheduleTask?: (task: string) => void
+  accessToken?: string | null
 }
 
 export function AIAssistant({ user, onClose, onScheduleTask }: AIAssistantProps) {
@@ -73,7 +74,7 @@ How can I assist you today?`,
   ]
 
   const handleSendMessage = async () => {
-    if (!inputMessage.trim()) return
+    if (!inputMessage.trim() || isTyping) return
 
     const userMessage: Message = {
       id: Date.now().toString(),
@@ -83,12 +84,71 @@ How can I assist you today?`,
     }
 
     setMessages(prev => [...prev, userMessage])
+    const currentInput = inputMessage
     setInputMessage('')
     setIsTyping(true)
 
-    // Simulate AI processing
-    setTimeout(() => {
-      const response = generateAIResponse(inputMessage)
+    try {
+      // Try to use OpenAI API if available
+      const apiKey = import.meta.env.VITE_OPENAI_API_KEY
+      
+      let response
+      if (apiKey) {
+        // Use OpenAI API
+        try {
+          const openaiResponse = await fetch('https://api.openai.com/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${apiKey}`,
+            },
+            body: JSON.stringify({
+              model: 'gpt-3.5-turbo',
+              messages: [
+                {
+                  role: 'system',
+                  content: `You are a helpful property management AI assistant for TasKeen P.M.S. 
+                    Help users with property management tasks like:
+                    - Managing properties and tenants
+                    - Scheduling maintenance requests
+                    - Setting up payment reminders
+                    - Generating reports and insights
+                    - Answering questions about the platform
+                    Be concise, helpful, and professional.`
+                },
+                ...messages.map(msg => ({
+                  role: msg.type === 'user' ? 'user' : 'assistant',
+                  content: msg.content
+                })),
+                {
+                  role: 'user',
+                  content: currentInput
+                }
+              ],
+              max_tokens: 500,
+              temperature: 0.7,
+            }),
+          })
+
+          if (openaiResponse.ok) {
+            const data = await openaiResponse.json()
+            response = {
+              content: data.choices[0]?.message?.content || generateAIResponse(currentInput).content,
+              suggestions: generateAIResponse(currentInput).suggestions
+            }
+          } else {
+            // Fallback to local response
+            response = generateAIResponse(currentInput)
+          }
+        } catch (error) {
+          console.warn('OpenAI API error, using fallback:', error)
+          response = generateAIResponse(currentInput)
+        }
+      } else {
+        // Use local intelligent response generation
+        response = generateAIResponse(currentInput)
+      }
+
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
         type: 'assistant',
@@ -98,8 +158,18 @@ How can I assist you today?`,
       }
 
       setMessages(prev => [...prev, assistantMessage])
+    } catch (error: any) {
+      toast.error(`Error: ${error.message}`)
+      const errorMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        type: 'assistant',
+        content: 'I apologize, but I encountered an error. Please try again or rephrase your question.',
+        timestamp: new Date(),
+      }
+      setMessages(prev => [...prev, errorMessage])
+    } finally {
       setIsTyping(false)
-    }, 1500)
+    }
   }
 
   const generateAIResponse = (input: string) => {

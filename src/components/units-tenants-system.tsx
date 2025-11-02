@@ -44,6 +44,7 @@ import {
   Zap
 } from 'lucide-react'
 import { toast } from 'sonner'
+import { CSVImportDialog } from './csv-import-dialog'
 
 interface User {
   id: string
@@ -134,6 +135,7 @@ export function UnitsTenantsSystem({ user, accessToken }: UnitsTenantsSystemProp
   const [isLoading, setIsLoading] = useState(true)
   const [showAddUnit, setShowAddUnit] = useState(false)
   const [showAddTenant, setShowAddTenant] = useState(false)
+  const [showCSVImport, setShowCSVImport] = useState(false)
 
   useEffect(() => {
     loadUnitsAndTenants()
@@ -514,6 +516,14 @@ export function UnitsTenantsSystem({ user, accessToken }: UnitsTenantsSystemProp
           <p className="text-muted-foreground">Manage your property units and tenant relationships</p>
         </div>
         <div className="flex gap-2">
+          <Button 
+            variant="outline" 
+            onClick={() => setShowCSVImport(true)}
+            className="bg-gradient-to-r from-blue-50 to-purple-50 hover:from-blue-100 hover:to-purple-100"
+          >
+            <Upload className="h-4 w-4 mr-2" />
+            Import CSV/Excel
+          </Button>
           <Button onClick={() => setShowAddTenant(true)}>
             <Users className="h-4 w-4 mr-2" />
             Add Tenant
@@ -702,6 +712,17 @@ export function UnitsTenantsSystem({ user, accessToken }: UnitsTenantsSystemProp
       </Tabs>
 
       {renderUnitDetails()}
+
+      {/* CSV Import Dialog */}
+      <CSVImportDialog
+        open={showCSVImport}
+        onOpenChange={setShowCSVImport}
+        onImportComplete={() => {
+          loadUnitsAndTenants()
+          setShowCSVImport(false)
+        }}
+        companyId={user.companyId}
+      />
     </div>
   )
 }

@@ -1,0 +1,81 @@
+
+> taskeen-pms@0.1.0 type-check
+> tsc --noEmit --skipLibCheck
+
+src/App.tsx(550,19): error TS2322: Type '(formData: any) => Promise<{ success: boolean; user: User; }>' is not assignable to type '(formData: any) => Promise<void>'.
+  Type 'Promise<{ success: boolean; user: User; }>' is not assignable to type 'Promise<void>'.
+    Type '{ success: boolean; user: User; }' is not assignable to type 'void'.
+src/components/accounting-system.tsx(626,13): error TS2719: Type 'InvoiceTemplate[]' is not assignable to type 'InvoiceTemplate[]'. Two different types with this name exist, but they are unrelated.
+  Type 'InvoiceTemplate' is missing the following properties from type 'InvoiceTemplate': primaryColor, accentColor, fontFamily, layoutStyle
+src/components/accounting-system.tsx(630,30): error TS2554: Expected 0 arguments, but got 1.
+src/components/builder-io-component.tsx(50,17): error TS2576: Property 'registerComponent' does not exist on type 'Builder'. Did you mean to access the static member 'Builder.registerComponent' instead?
+src/components/builder-io-component.tsx(121,7): error TS2322: Type 'null' is not assignable to type 'BuilderContent | undefined'.
+src/components/builder-io-editor.tsx(31,21): error TS2345: Argument of type 'boolean | ""' is not assignable to parameter of type 'SetStateAction<boolean>'.
+  Type '""' is not assignable to type 'SetStateAction<boolean>'.
+src/components/builder-io-editor.tsx(37,19): error TS2576: Property 'registerComponent' does not exist on type 'Builder'. Did you mean to access the static member 'Builder.registerComponent' instead?
+src/components/communications-system.tsx(973,96): error TS2367: This comparison appears to be unintentional because the types '"email" | "sms" | "notification" | "internal" | "announcement"' and '"draft"' have no overlap.
+src/components/company-dashboard-updated.tsx(292,30): error TS2339: Property 'variant' does not exist on type 'never'.
+src/components/company-dashboard-updated.tsx(292,47): error TS2339: Property 'label' does not exist on type 'never'.
+src/components/company-dashboard.tsx(295,30): error TS2339: Property 'variant' does not exist on type 'never'.
+src/components/company-dashboard.tsx(295,47): error TS2339: Property 'label' does not exist on type 'never'.
+src/components/Copilot.tsx(3,28): error TS2307: Cannot find module '../../lib/openai' or its corresponding type declarations.
+src/components/Copilot.tsx(24,31): error TS18046: 'err' is of type 'unknown'.
+src/components/csv-import-dialog.tsx(305,22): error TS2304: Cannot find name 'Bell'.
+src/components/main-dashboard.tsx(630,13): error TS2367: This comparison appears to be unintentional because the types '"company_admin" | "employee" | "platform_admin"' and '"maintenance_staff"' have no overlap.
+src/components/marketing-listings.tsx(510,57): error TS2339: Property 'priority' does not exist on type 'MarketingCampaign'.
+src/components/reports-analytics.tsx(647,71): error TS2339: Property 'occupancyRate' does not exist on type 'PropertyMetrics'.
+src/components/reports-analytics.tsx(648,51): error TS2339: Property 'occupancyRate' does not exist on type 'PropertyMetrics'.
+src/components/reports-analytics.tsx(815,20): error TS2304: Cannot find name 'Star'.
+src/components/reports-analytics.tsx(850,16): error TS2304: Cannot find name 'Plus'.
+src/components/search-system.tsx(67,13): error TS2322: Type '{ id: string; type: string; title: string; description: string; metadata: string; route: string; }[]' is not assignable to type 'SearchResult[]'.
+  Type '{ id: string; type: string; title: string; description: string; metadata: string; route: string; }' is not assignable to type 'SearchResult'.
+    Types of property 'type' are incompatible.
+      Type 'string' is not assignable to type '"property" | "unit" | "maintenance" | "tenant" | "payment" | "lease"'.
+src/supabase/functions/server/index.tsx(1,22): error TS2307: Cannot find module 'npm:hono' or its corresponding type declarations.
+src/supabase/functions/server/index.tsx(2,22): error TS2307: Cannot find module 'npm:hono/cors' or its corresponding type declarations.
+src/supabase/functions/server/index.tsx(3,24): error TS2307: Cannot find module 'npm:hono/logger' or its corresponding type declarations.
+src/supabase/functions/server/index.tsx(4,30): error TS2307: Cannot find module 'npm:@supabase/supabase-js' or its corresponding type declarations.
+src/supabase/functions/server/index.tsx(24,3): error TS2304: Cannot find name 'Deno'.
+src/supabase/functions/server/index.tsx(25,3): error TS2304: Cannot find name 'Deno'.
+src/supabase/functions/server/index.tsx(73,51): error TS7006: Parameter 'c' implicitly has an 'any' type.
+src/supabase/functions/server/index.tsx(106,63): error TS7006: Parameter 'c' implicitly has an 'any' type.
+src/supabase/functions/server/index.tsx(132,63): error TS7006: Parameter 'c' implicitly has an 'any' type.
+src/supabase/functions/server/index.tsx(215,49): error TS7006: Parameter 'c' implicitly has an 'any' type.
+src/supabase/functions/server/index.tsx(259,52): error TS7006: Parameter 'c' implicitly has an 'any' type.
+src/supabase/functions/server/index.tsx(283,53): error TS7006: Parameter 'c' implicitly has an 'any' type.
+src/supabase/functions/server/index.tsx(318,49): error TS7006: Parameter 'c' implicitly has an 'any' type.
+src/supabase/functions/server/index.tsx(342,50): error TS7006: Parameter 'c' implicitly has an 'any' type.
+src/supabase/functions/server/index.tsx(377,62): error TS7006: Parameter 'c' implicitly has an 'any' type.
+src/supabase/functions/server/index.tsx(401,63): error TS7006: Parameter 'c' implicitly has an 'any' type.
+src/supabase/functions/server/index.tsx(437,50): error TS7006: Parameter 'c' implicitly has an 'any' type.
+src/supabase/functions/server/index.tsx(461,51): error TS7006: Parameter 'c' implicitly has an 'any' type.
+src/supabase/functions/server/index.tsx(496,51): error TS7006: Parameter 'c' implicitly has an 'any' type.
+src/supabase/functions/server/index.tsx(520,52): error TS7006: Parameter 'c' implicitly has an 'any' type.
+src/supabase/functions/server/index.tsx(556,57): error TS7006: Parameter 'c' implicitly has an 'any' type.
+src/supabase/functions/server/index.tsx(597,56): error TS7006: Parameter 'c' implicitly has an 'any' type.
+src/supabase/functions/server/index.tsx(633,55): error TS7006: Parameter 'c' implicitly has an 'any' type.
+src/supabase/functions/server/index.tsx(660,59): error TS7006: Parameter 'c' implicitly has an 'any' type.
+src/supabase/functions/server/index.tsx(677,52): error TS7006: Parameter 'c' implicitly has an 'any' type.
+src/supabase/functions/server/index.tsx(710,53): error TS7006: Parameter 'c' implicitly has an 'any' type.
+src/supabase/functions/server/index.tsx(721,39): error TS7006: Parameter 'user' implicitly has an 'any' type.
+src/supabase/functions/server/index.tsx(730,22): error TS7006: Parameter 'user' implicitly has an 'any' type.
+src/supabase/functions/server/index.tsx(754,53): error TS7006: Parameter 'c' implicitly has an 'any' type.
+src/supabase/functions/server/index.tsx(768,61): error TS7006: Parameter 'c' implicitly has an 'any' type.
+src/supabase/functions/server/index.tsx(792,62): error TS7006: Parameter 'c' implicitly has an 'any' type.
+src/supabase/functions/server/index.tsx(827,62): error TS7006: Parameter 'c' implicitly has an 'any' type.
+src/supabase/functions/server/index.tsx(851,63): error TS7006: Parameter 'c' implicitly has an 'any' type.
+src/supabase/functions/server/index.tsx(893,72): error TS7006: Parameter 'c' implicitly has an 'any' type.
+src/supabase/functions/server/index.tsx(927,83): error TS7006: Parameter 'c' implicitly has an 'any' type.
+src/supabase/functions/server/index.tsx(1001,78): error TS7006: Parameter 'c' implicitly has an 'any' type.
+src/supabase/functions/server/index.tsx(1042,79): error TS7006: Parameter 'c' implicitly has an 'any' type.
+src/supabase/functions/server/index.tsx(1087,1): error TS2304: Cannot find name 'Deno'.
+src/supabase/functions/server/kv_store.tsx(13,30): error TS2307: Cannot find module 'jsr:@supabase/supabase-js' or its corresponding type declarations.
+src/supabase/functions/server/kv_store.tsx(16,3): error TS2304: Cannot find name 'Deno'.
+src/supabase/functions/server/kv_store.tsx(17,3): error TS2304: Cannot find name 'Deno'.
+src/supabase/functions/server/kv_store.tsx(67,21): error TS7006: Parameter 'd' implicitly has an 'any' type.
+src/supabase/functions/server/kv_store.tsx(86,21): error TS7006: Parameter 'd' implicitly has an 'any' type.
+src/supabase/functions/server/setup.tsx(1,30): error TS2307: Cannot find module 'npm:@supabase/supabase-js' or its corresponding type declarations.
+src/supabase/functions/server/setup.tsx(5,3): error TS2304: Cannot find name 'Deno'.
+src/supabase/functions/server/setup.tsx(6,3): error TS2304: Cannot find name 'Deno'.
+src/supabase/functions/server/setup.tsx(26,53): error TS7006: Parameter 'u' implicitly has an 'any' type.
+src/supabase/functions/server/setup.tsx(133,49): error TS7006: Parameter 'u' implicitly has an 'any' type.

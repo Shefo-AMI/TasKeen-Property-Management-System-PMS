@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { supabase } from '@/lib/supabase';
-import { askCopilot } from '@/lib/openai';
+import { supabase } from '../utils/supabase/client';
+import { askCopilot } from '../../lib/openai';
 
 export default function Copilot({ userId }: { userId: string }) {
   const [input, setInput] = useState('');

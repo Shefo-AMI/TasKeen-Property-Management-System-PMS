@@ -1,39 +1,25 @@
 import React, { useState, useEffect } from 'react'
 import { Button } from './ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card'
-import { Badge } from './ui/badge'
-import { Input } from './ui/input'
-import { Label } from './ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs'
-import { Calendar } from './ui/calendar'
 import { Progress } from './ui/progress'
-import { ScrollArea } from './ui/scroll-area'
 import { 
   BarChart3, 
   TrendingUp, 
   TrendingDown, 
   Download, 
   Filter, 
-  Calendar as CalendarIcon,
   DollarSign,
   Home,
   Users,
-  Key,
   Clock,
-  AlertTriangle,
   CheckCircle,
-  PieChart,
-  LineChart,
   Activity,
   Target,
-  Percent,
-  Building2,
-  FileText,
-  Mail,
-  Share,
-  Settings,
-  Eye
+  Star,
+  Plus,
+  Share
 } from 'lucide-react'
 import { LineChart as RechartsLineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart as RechartsBarChart, Bar, PieChart as RechartsPieChart, Cell, Pie, AreaChart, Area } from 'recharts'
 import { toast } from 'sonner'
@@ -72,6 +58,7 @@ interface PropertyMetrics {
   maintenanceUnits: number
   averageDaysVacant: number
   turnoverRate: number
+  occupancyRate: number
 }
 
 interface TenantMetrics {
@@ -96,7 +83,7 @@ interface MaintenanceMetrics {
 
 const COLORS = ['#3b82f6', '#ef4444', '#10b981', '#f59e0b', '#8b5cf6', '#06b6d4']
 
-export function ReportsAnalytics({ user, accessToken }: ReportsAnalyticsProps) {
+export function ReportsAnalytics({ user: _user, accessToken: _accessToken }: ReportsAnalyticsProps) {
   const [activeTab, setActiveTab] = useState('overview')
   const [selectedDateRange, setSelectedDateRange] = useState('last_12_months')
   const [selectedProperty, setSelectedProperty] = useState('all')
@@ -195,7 +182,8 @@ export function ReportsAnalytics({ user, accessToken }: ReportsAnalyticsProps) {
         vacantUnits: 12,
         maintenanceUnits: 3,
         averageDaysVacant: 18,
-        turnoverRate: 8.2
+        turnoverRate: 8.2,
+        occupancyRate: 95.3
       })
 
       setTenantMetrics({

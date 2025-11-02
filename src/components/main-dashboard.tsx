@@ -71,6 +71,8 @@ import { LeasesContractsSystem } from './leases-contracts-system'
 import { RoleBasedAccess } from './role-based-access'
 import { canAccessSection, ALZAHI_COMPANY } from '../utils/alzahi-company-setup'
 import { AdvancedDashboardCharts } from './advanced-dashboard-charts'
+import { EnhancedDashboardOverview } from './enhanced-dashboard-overview'
+import { SearchSystem } from './search-system'
 import { PaymentsSystem } from './payments-system'
 import { ReportsAnalytics } from './reports-analytics'
 import { CalendarSystem } from './calendar-system'
@@ -79,7 +81,6 @@ import { InspectionsSystem } from './inspections-system'
 import { VendorManagement } from './vendor-management'
 import { MarketingListings } from './marketing-listings'
 import { DocumentsSystem } from './documents-system'
-import { BuilderEditorManager } from './builder-io-editor'
 import { CRUDManagementPage } from './crud-management-page'
 import { CRUDManagementPageSupabase } from './crud-management-page-supabase'
 import { toast } from 'sonner'
@@ -154,11 +155,29 @@ export function MainDashboard({ user, accessToken, onLogout }: MainDashboardProp
   const [dashboardMaintenanceRequests, setDashboardMaintenanceRequests] = useState<MaintenanceRequest[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
+  const [searchOpen, setSearchOpen] = useState(false)
 
   // Load dashboard data
   useEffect(() => {
     loadDashboardData()
   }, [])
+
+  // Keyboard shortcut for search (Ctrl+K or Cmd+K)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault()
+        setSearchOpen(true)
+      }
+      // Escape to close search
+      if (e.key === 'Escape' && searchOpen) {
+        setSearchOpen(false)
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [searchOpen])
   
   // Update activeTab when route changes
   useEffect(() => {
@@ -213,7 +232,6 @@ export function MainDashboard({ user, accessToken, onLogout }: MainDashboardProp
     { id: 'vendors', label: 'Vendors', icon: Truck, roles: ['company_admin', 'platform_admin'] },
     { id: 'marketing', label: 'Marketing', icon: Star, roles: ['company_admin', 'platform_admin'] },
     { id: 'documents', label: 'Documents', icon: FileImage, roles: ['company_admin', 'platform_admin'] },
-    { id: 'builder', label: 'Builder.io', icon: Sparkles, roles: ['platform_admin'] },
     { id: 'ai-assistant', label: 'AI Assistant', icon: Zap, roles: ['all'] }
   ];
 
@@ -515,7 +533,7 @@ export function MainDashboard({ user, accessToken, onLogout }: MainDashboardProp
           <h2 className="text-2xl font-bold">Properties</h2>
           <p className="text-muted-foreground">Manage your property portfolio</p>
         </div>
-        <Button>
+        <Button onClick={() => handleNavigate('properties')}>
           <Plus className="h-4 w-4 mr-2" />
           Add Property
         </Button>
@@ -609,7 +627,17 @@ export function MainDashboard({ user, accessToken, onLogout }: MainDashboardProp
     switch (activeTab) {
       case 'overview':
         // Show maintenance-only dashboard for maintenance staff
-        return user.role === 'maintenance_staff' ? renderMaintenanceOnlyDashboard() : renderOverview()
+        if (user.role === 'maintenance_staff') {
+          return renderMaintenanceOnlyDashboard()
+        }
+        // Use enhanced dashboard overview with AI notifications
+        return (
+          <EnhancedDashboardOverview
+            user={user}
+            stats={stats}
+            onNavigate={handleNavigate}
+          />
+        )
       case 'buildings':
         return <BuildingsUnitsManagement user={user} accessToken={accessToken} />
       case 'properties':
@@ -640,10 +668,8 @@ export function MainDashboard({ user, accessToken, onLogout }: MainDashboardProp
         return <DocumentsSystem user={user} accessToken={accessToken} />
       case 'crud-management':
         return <CRUDManagementPageSupabase user={user} />
-      case 'builder':
-        return <BuilderEditorManager user={user} />
       case 'ai-assistant':
-        return <AIAssistant user={user} accessToken={accessToken} />
+        return <AIAssistant user={user} accessToken={accessToken} onClose={() => handleNavigate('overview')} />
       default:
         return (
           <div className="flex items-center justify-center h-64">
@@ -739,8 +765,10 @@ export function MainDashboard({ user, accessToken, onLogout }: MainDashboardProp
                 <div className="relative flex-1 max-w-md">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                   <Input
-                    placeholder="Search properties, tenants, or maintenance..."
-                    className="pl-10"
+                    placeholder="Search properties, tenants, or maintenance... (Ctrl+K)"
+                    className="pl-10 cursor-pointer"
+                    onClick={() => setSearchOpen(true)}
+                    readOnly
                   />
                 </div>
               </div>
@@ -761,6 +789,13 @@ export function MainDashboard({ user, accessToken, onLogout }: MainDashboardProp
           </main>
         </div>
       </div>
+
+      {/* Global Search System */}
+      <SearchSystem
+        open={searchOpen}
+        onOpenChange={setSearchOpen}
+        onNavigate={handleNavigate}
+      />
     </SidebarProvider>
   )
 }

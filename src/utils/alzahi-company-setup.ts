@@ -218,7 +218,7 @@ export function canAccessSection(userRole: string, section: string): boolean {
   if (rolePerms.permissions.includes('all')) return true;
   
   // Check if role is restricted to specific sections
-  if (rolePerms.restrictedTo) {
+  if ('restrictedTo' in rolePerms && rolePerms.restrictedTo) {
     return rolePerms.restrictedTo.includes(section);
   }
   

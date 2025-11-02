@@ -265,7 +265,7 @@ export interface Report {
     start: string
     end: string
   }
-  data: any
+  data: Record<string, unknown>
   generatedAt: string
   generatedBy: string
   format: 'pdf' | 'excel' | 'csv'
@@ -828,7 +828,7 @@ export const demoMaintenanceRequests: MaintenanceRequest[] = [
     description: 'Install and configure smart home automation system for new tenant',
     category: 'Electrical',
     priority: 'low',
-    status: 'scheduled',
+    status: 'open',
     assignee: 'Smart Tech Solutions',
     vendor: 'Dubai Smart Home',
     estimatedCost: 1200,

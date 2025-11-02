@@ -7,9 +7,18 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
 import { Zap, Mail, Key, User, Building, Users as UsersIcon } from 'lucide-react'
 
+interface RegisterFormData {
+  email: string
+  password: string
+  fullName: string
+  companyName: string
+  employeeCount: number
+  role: string
+}
+
 interface AuthFormProps {
   onLogin: (email: string, password: string) => Promise<void>
-  onRegister: (formData: any) => Promise<void>
+  onRegister: (formData: RegisterFormData) => Promise<{ success: boolean; user: Record<string, unknown> } | void>
   onShowAdminSetup?: () => void
 }
 
@@ -35,7 +44,7 @@ const cyberStyles = `
   .cyber-tab-active { background: linear-gradient(135deg, #0ea5e9 0%, #00ffff 100%); box-shadow: 0 0 20px rgba(0, 255, 255, 0.5); }
   .subtitle-glow { color: #22d3ee; text-shadow: 0 0 10px rgba(6, 182, 212, 0.8); letter-spacing: 0.2em; }
 `
-export function AuthForm({ onLogin, onRegister, onShowAdminSetup }: AuthFormProps) {
+export function AuthForm({ onLogin, onRegister, onShowAdminSetup: _onShowAdminSetup }: AuthFormProps) {
   const [isLoading, setIsLoading] = useState(false)
   const [loginForm, setLoginForm] = useState({
     email: '',

@@ -285,67 +285,111 @@ function AppContent() {
     password: string,
   ) => {
     try {
-      console.log("🔐 Attempting login...");
+      console.log("🔐 Attempting login...", { email });
+
+      // Validate inputs
+      if (!email || !password) {
+        toast.error("Please enter both email and password");
+        throw new Error("Missing credentials");
+      }
+
+      // Trim email and convert to lowercase
+      const normalizedEmail = email.trim().toLowerCase();
 
       const { data, error } =
         await supabase.auth.signInWithPassword({
-          email,
+          email: normalizedEmail,
           password,
         });
 
       if (error) {
-        console.log("❌ Authentication error:", error.message);
+        console.error("❌ Authentication error:", {
+          message: error.message,
+          status: error.status,
+        });
 
         // Provide more specific error messages
         if (
-          error.message.includes("Invalid login credentials")
+          error.message.includes("Invalid login credentials") ||
+          error.message.includes("invalid") ||
+          error.status === 400
         ) {
           toast.error(
-            "Invalid email or password. Please check your credentials.",
+            "Invalid email or password. Please check your credentials and try again.",
+            {
+              duration: 5000,
+            }
           );
         } else if (
-          error.message.includes("Email not confirmed")
+          error.message.includes("Email not confirmed") ||
+          error.message.includes("email_not_confirmed")
         ) {
           toast.error(
-            "Please verify your email address before logging in.",
+            "Please verify your email address before logging in. Check your inbox for a confirmation email.",
+            {
+              duration: 7000,
+              action: {
+                label: "Resend Email",
+                onClick: async () => {
+                  // Option to resend confirmation email
+                  await supabase.auth.resend({
+                    type: 'signup',
+                    email: normalizedEmail,
+                  });
+                  toast.info("Confirmation email resent. Please check your inbox.");
+                },
+              },
+            }
+          );
+        } else if (error.message.includes("too many")) {
+          toast.error(
+            "Too many login attempts. Please wait a few minutes and try again.",
           );
         } else {
-          toast.error(error.message || "Login failed");
+          toast.error(error.message || "Login failed. Please try again.", {
+            duration: 5000,
+          });
         }
         throw error;
       }
 
       if (data.session?.access_token) {
-        console.log("✅ Login successful");
+        console.log("✅ Login successful", {
+          userId: data.user?.id,
+          email: data.user?.email,
+        });
         setAccessToken(data.session.access_token);
 
         // Fetch user profile in background
-        fetchUserProfile(data.session.access_token)
-          .then(() => {
-            setIsAuthenticated(true);
-            toast.success("Welcome back!");
-          })
-          .catch((profileError) => {
-            console.log(
-              "⚠️ Profile creation failed, but authentication succeeded",
-            );
-            // Still set as authenticated since auth worked
-            setIsAuthenticated(true);
-            toast.success("Welcome back!");
-          });
+        try {
+          await fetchUserProfile(data.session.access_token);
+          setIsAuthenticated(true);
+          toast.success("Welcome back to TasKeen P.M.S!");
+        } catch (profileError) {
+          console.log(
+            "⚠️ Profile creation failed, but authentication succeeded",
+            profileError
+          );
+          // Still set as authenticated since auth worked
+          setIsAuthenticated(true);
+          toast.success("Welcome back!");
+        }
       } else {
-        console.log("❌ No session token received");
-        toast.error("Login failed - please try again");
+        console.error("❌ No session token received", { data });
+        toast.error("Login failed - no session created. Please try again.");
         throw new Error("No session token received");
       }
     } catch (error: any) {
-      console.log("⚠️ Login failed:", error.message);
+      console.error("💥 Login failed:", error);
+      // Error already shown via toast above
       throw error;
     }
   };
 
   const handleRegister = async (formData: any) => {
     try {
+      console.log("📝 Attempting registration...", { email: formData.email });
+      
       const { data, error } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
@@ -357,22 +401,52 @@ function AppContent() {
             employee_count: formData.employeeCount || 1,
             status: "pending_approval",
           },
+          emailRedirectTo: window.location.origin,
         },
       });
 
       if (error) {
+        console.error("❌ Registration error:", error);
+        
+        // Provide specific error messages
+        if (error.message.includes("already registered")) {
+          toast.error("This email is already registered. Please try logging in instead.");
+        } else if (error.message.includes("password")) {
+          toast.error("Password is too weak. Please use a stronger password.");
+        } else if (error.message.includes("email")) {
+          toast.error("Invalid email address. Please check and try again.");
+        } else {
+          toast.error(error.message || "Registration failed. Please try again.");
+        }
         throw error;
       }
 
       if (data.user) {
-        toast.success(
-          "Registration successful! Please check your email to confirm your account.",
-        );
+        console.log("✅ Registration successful:", data.user.id);
+        
+        // Check if email confirmation is required
+        if (data.session) {
+          // User is automatically logged in (email confirmation disabled)
+          setAccessToken(data.session.access_token);
+          await fetchUserProfile(data.session.access_token);
+          setIsAuthenticated(true);
+          toast.success("Registration successful! Welcome to TasKeen P.M.S.");
+        } else {
+          // Email confirmation required
+          toast.success(
+            "Registration successful! Please check your email to confirm your account.",
+            {
+              duration: 5000,
+            }
+          );
+        }
         return { success: true, user: data.user };
+      } else {
+        throw new Error("No user data received from registration");
       }
     } catch (error: any) {
-      console.error("Registration error:", error);
-      toast.error(error.message || "Registration failed");
+      console.error("💥 Registration failed:", error);
+      // Error already shown via toast above
       throw error;
     }
   };
